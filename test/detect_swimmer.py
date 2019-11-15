@@ -1,7 +1,7 @@
 #Adapted from Adrian Rosebrock on PyImage Search
 #For use in smartSwim Boston University Senior Design 2020
 
-from imutils.video import VideoStream
+from imutils.video import FileVideoStream
 from imutils.video import FPS
 import numpy as np
 import argparse
@@ -20,7 +20,7 @@ ap.add_argument("-v","--video", required=True, help="path to video")
 args = vars(ap.parse_args())
 
 #Set the swim class descriptor and give a color
-CLASSES = ["swimmer"]
+CLASSES = ["person"]
 COLORS	= np.random.uniform(0,255, size=(len(CLASSES),3))
 
 #Load the Trained Model
@@ -29,14 +29,14 @@ net = cv2.dnn.readNetFromCaffe(args["prototext"],args["model"])
 
 #Load video from filesystem
 print("Loading video from filesystem [" + args["video"] +"]...")
-vs = VideoStream(src=args["video"]).start()
-time.sleep(2.0)
+vs = FileVideoStream(args["video"]).start()
+time.sleep(4.0)
 fps = FPS().start()
 
-while True:
+while vs.more():
 	#Take a frame and resize
 	frame = vs.read()
-	frame = imutls.resize(frame,width=400)
+	frame = imutils.resize(frame,width=400)
 
 	#Convert to blob
 	(h,w) = frame.shape[:2]
@@ -59,7 +59,7 @@ while True:
 			(startX, startY, endX, endY) = box.astype("int")
 			
 			#Draw box around detected object
-			label = "{}: {:2f}%".format(CLASSES[idx], confidence * 100)
+			label = "{}: {:2f}%".format("swimmer", confidence * 100)
 			cv2.rectangle(frame, (startX, startY), (endX, endY), colors[idx], 2)
 
 			#Put label above the box if there's space
