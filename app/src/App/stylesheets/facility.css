@@ -1,0 +1,12 @@
+.colMargin {
+  margin-bottom: 20px;
+}
+
+.square {
+  width: 100% !important;
+  height: 0px !important;
+  padding-bottom: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

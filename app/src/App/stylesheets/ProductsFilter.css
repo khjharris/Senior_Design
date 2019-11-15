@@ -1,0 +1,79 @@
+/* Begin Filter Card css */
+.filterContainer {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.filterCard {
+  position: absolute;
+  /* top: 60%; */
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.cardHeader {
+  font-size: 1.25em !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: "Open Sans","HelveticaNeue","Helvetica Neue",sans-serif;
+  font-weight: 600;
+  color: #3d4246;
+}
+
+.cardStyle {
+  min-height: 300px;
+}
+/* End Filter Card CSS */
+
+.productCard {
+  transition: all .2s ease-in-out;
+}
+.productCard:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.form-control-width {
+  width: 100% !important;
+  min-width: 120px;
+}
+
+/*
+ * Media Queries
+ */
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+  .productCard {
+    height: 20rem;
+  }
+  .cardTitle {
+    font-size: 16px !important;
+    font-weight: 600;
+  }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  .productCard {
+    height: 26rem;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .cardStyle {
+    min-width: 300px;
+  }
+
+}
+
+@media only screen and (min-width: 761px) {
+  .cardStyle {
+    min-width: 400px;
+  }
+
+}
+/* End filter card css */

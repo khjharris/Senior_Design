@@ -1,0 +1,14 @@
+applications:
+  - name: swim
+    memory: 2G
+    instances: 1
+    buildpacks:
+      # - sdk-for-nodejs
+      - https://github.com/cloudfoundry/nodejs-buildpack.git
+    command: npm run deploy
+    routes:
+      - route: swim.us-south.cf.appdomain.cloud
+    env:
+      NPM_CONFIG_PRODUCTION : false
+    services:
+      - swim-psql

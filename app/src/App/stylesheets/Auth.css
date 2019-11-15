@@ -1,0 +1,29 @@
+.formBox {
+  width: 50%;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 20%);
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.4);
+}
+
+.cursor:hover {
+  cursor: pointer;
+}
+
+.link {
+  text-decoration: underline !important;
+  color: #0000ee !important;
+}
+.link:hover {
+  cursor: pointer !important;
+}
+
+@media screen and (max-width: 550px) {
+  .formBox {
+    width: 85%;
+  }
+}
+

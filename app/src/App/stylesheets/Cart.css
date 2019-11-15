@@ -1,0 +1,31 @@
+.cart-border {
+  border-radius: 2px;
+  border: .15rem solid #ececec;
+  margin-top: 15px;
+}
+
+.justify-content-space-between {
+  justify-content: space-between !important;
+}
+
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.img-thumbnail {
+  min-width: 100px !important;
+}
+
+.custom-container {
+  max-width: 81.25rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+.custom-row {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+}
