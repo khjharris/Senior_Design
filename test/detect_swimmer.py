@@ -21,7 +21,7 @@ args = vars(ap.parse_args())
 
 #Set the swim class descriptor and give a color
 CLASSES = ["person"]
-COLORS	= np.random.uniform(0,255, size=(len(CLASSES),3))
+COLORS	= "yellow"
 
 #Load the Trained Model
 print("Loading trained model...")
@@ -29,13 +29,17 @@ net = cv2.dnn.readNetFromCaffe(args["prototext"],args["model"])
 
 #Load video from filesystem
 print("Loading video from filesystem [" + args["video"] +"]...")
-vs = FileVideoStream(args["video"]).start()
-time.sleep(4.0)
+vs = cv2.VideoCapture(args["video"])
 fps = FPS().start()
-
-while vs.more():
+cv2.startWindowThread()
+while True:
 	#Take a frame and resize
-	frame = vs.read()
+	(grabbed,frame) = vs.read()
+
+	if not grabbed:
+		print("Not Grabbed...")
+		break
+
 	frame = imutils.resize(frame,width=400)
 
 	#Convert to blob
@@ -60,11 +64,11 @@ while vs.more():
 			
 			#Draw box around detected object
 			label = "{}: {:2f}%".format("swimmer", confidence * 100)
-			cv2.rectangle(frame, (startX, startY), (endX, endY), colors[idx], 2)
+			cv2.rectangle(frame, (startX, startY), (endX, endY), 2, 2)
 
 			#Put label above the box if there's space
 			y = startY -15 if startY - 15 < 15 else startY + 15
-			cv2.putText(frame, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+			cv2.putText(frame, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2, 2)
 
 	#Output the frame
 	cv2.imshow("Frame", frame)
@@ -76,9 +80,9 @@ while vs.more():
 	fps.update()
 
 fps.stop()
-print("Elapsed time: {:.2f}".format(fps.elapsed()))
-print("Approximate FPS: {:.2f}".format(fps.fps()))
-
+#print("Elapsed time: {:.2f}".format(fps.elapsed()))
+#print("Approximate FPS: {:.2f}".format(fps.fps()))
+vs.release()
 cv2.destroyAllWindows()
-vs.stop()
+
 			
