@@ -1,0 +1,16 @@
+.custom-container {
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+/* .MuiPaper-root .MuiMenu-paper .MuiPaper-elevation8 .MuiPopover-paper .MuiPaper-rounded {
+  display: none !important;
+} */
+
+/* Set up only on mediaquery */
+/* .img-thumbnail-custom {
+  max-width: 50% !important;
+} */
