@@ -10,6 +10,12 @@ LEFT_WRIST_JOINT = 7
 # Stage B1 is left wrist at local max, B2,3 are the frames before max and B4,5 are the frames after the max
 
 
+def parseRaw(file):
+    frames = getDataFromCSV()
+    critical_frames = getStages(frames)
+    saveStages(critical_frames)
+
+
 def saveStages(critical_frames):
     for i, stageFrames in enumerate(critical_frames):
         if i == 0:
@@ -87,8 +93,8 @@ def getStages(frames):
      return critical_frames
 
 
-def getDataFromCSV():
-    with open('points.txt') as csv_file:
+def getDataFromCSV(file):
+    with open(file) as csv_file:
     csv_reader=csv.reader(csv_file, delimiter=',')
 
     frames=[]
