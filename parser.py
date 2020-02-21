@@ -11,7 +11,7 @@ LEFT_WRIST_JOINT = 7
 
 
 def parseRaw(file):
-    frames = getDataFromCSV()
+    frames = getDataFromCSV(file)
     critical_frames = getStages(frames)
     saveStages(critical_frames)
 
