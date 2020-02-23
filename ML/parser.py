@@ -1,4 +1,6 @@
 import csv
+import pickle
+import os
 
 
 RIGHT_WRIST_JOINT = 4
@@ -10,37 +12,57 @@ LEFT_WRIST_JOINT = 7
 # Stage B1 is left wrist at local max, B2,3 are the frames before max and B4,5 are the frames after the max
 
 
-def parseRaw(file):
+def parseRaw(file, user_name, mode):
     frames = getDataFromCSV(file)
     critical_frames = getStages(frames)
-    saveStages(critical_frames)
+    saveStages(critical_frames, user_name, mode)
 
 
-def saveStages(critical_frames):
+def saveStages(critical_frames, user_name, mode):
     for i, stageFrames in enumerate(critical_frames):
         if i == 0:
-            f = open("data/stages/stageA1", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageA1", "w")
+            f2 = open("data/testing/users/%s_stageA1" % user_name, "w")
         elif i == 1:
-             f = open("data/stages/stageA2", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageA2", "w")
+            f2 = open("data/testing/users/%s_stageA2" % user_name, "w")
         elif i == 2:
-             f = open("data/stages/stageA3", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageA3", "w")
+            f2 = open("data/testing/users/%s_stageA3" % user_name, "w")
         elif i == 3:
-             f = open("data/stages/stageA4", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageA4", "w")
+            f2 = open("data/testing/users/%s_stageA4" % user_name, "w")
         elif i == 4:
-             f = open("data/stages/stageA5", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageA5", "w")
+            f2 = open("data/testing/users/%s_stageA5" % user_name, "w")
         elif i == 5:
-             f = open("data/stages/stageB1", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageB1", "w")
+            f2 = open("data/testing/users/%s_stageB1" % user_name, "w")
         elif i == 6:
-             f = open("data/stages/stageB2", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageB2", "w")
+            f2 = open("data/testing/users/%s_stageB2" % user_name, "w")
         elif i == 7:
-             f = open("data/stages/stageB3", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageB3", "w")
+            f2 = open("data/testing/users/%s_stageB3" % user_name, "w")
         elif i == 8:
-             f = open("data/stages/stageB4", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageB4", "w")
+            f2 = open("data/testing/users/%s_stageB4" % user_name, "w")
         elif i == 9:
-             f = open("data/stages/stageB5", "w")
+            if mode == train:
+                f1 = open("data/training/stages/stageB5", "w")
+            f2 = open("data/testing/users/%s_stageB5" % user_name, "w")
 
-        for frame in stageFrames:
-            f.write(frame)
+        pickle.dump(stageFrames, f1)
+        pickle.dump(stageFrames, f2)
 
 
 def getStages(frames):
