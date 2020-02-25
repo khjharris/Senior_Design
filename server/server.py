@@ -6,6 +6,7 @@ import http.server
 import socketserver
 from http import HTTPStatus
 import json
+import string
 
 #Initiate Camera connection
 print("Initializing Camera...")
@@ -30,6 +31,7 @@ cos = ibm_boto3.client(service_name='s3',
     config=Config(signature_version='oauth'),
     endpoint_url=credentials['ENDPOINT'])
 print("[X] Authenticated with IBM Cloud")
+numbers = ['0','1','2','3','4','5','6','7','8','9']
 
 #Server Handler
 print("Initializing Server...")
@@ -39,34 +41,46 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         content_len = int(self.headers.get('Content-Length'))
         post_body = self.rfile.read(content_len)
         post_body = str(post_body)
+        print(post_body)
 
         #Get name and duration
-        name_pos = find("name")
+        name_pos = post_body.find("name")
+        print("Name Location " + str(name_pos))
         name = ""
         i = 0
-        while true:
-           if post_body[name_pos+i] in numbers:
-              name = name + str(post_body[name_pos+i])
+        while True:
+           if post_body[name_pos+i+6] in numbers:
+              name = name + str(post_body[name_pos+i+6])
+           else:
+              break
            i+=1
+
         print("Filename: " + name)
-        duration_pos = find("duration")
-        duration = post_body[duration_pos+9] + post_body[duration_pos+10]
+        duration_pos = post_body.find("duration")
+        duration = post_body[duration_pos+10] + post_body[duration_pos+11]
         print("Duration: " + duration)
         duration = int(duration)
+        name = name + ".mp4"
 
-        #Here we will initiate capture session
-	gpCam.video_settings("1080p","60")
-        gpCam.gpControlSet(constants.Video.PROTUNE_VIDEO, constants.Video.ProTune.ON)
-        print("Recording " + str(name) + "Second Clip")
-        gpCam.downloadLastMedia(gpCam.shoot_video(duration), custom_filename=name)
+        skip = False
+        if name == '':
+           self.send_response(500)
+           self.end_headers()
+           skip = True
+        
+        if skip == False:
+           #Here we will initiate capture session
+           gpCam.video_settings("720p","60")
+           gpCam.gpControlSet(constants.Video.PROTUNE_VIDEO, constants.Video.ProTune.ON)
+           print("Recording " + str(duration) + " Second Clip")
+           gpCam.downloadLastMedia(gpCam.shoot_video(duration), custom_filename=name)
 
-`	#upload file to ibm cloud
-	cos.upload_file(Filename=name,Bucket='swim',Key=name)
+	   #upload file to ibm cloud
+           cos.upload_file(Filename=name,Bucket='swim',Key=name)
 
-        #Send response to server once upload is finished
-        self.send_response(200)
-        self.end_headers()
-        print(post_body)
+           #Send response to server once upload is finished
+           self.send_response(200)
+           self.end_headers()
 
 httpd = socketserver.TCPServer(('', 8080), Handler)
 print("Server Initialized, waiting on PORT 8080")
