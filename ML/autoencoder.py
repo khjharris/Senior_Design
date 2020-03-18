@@ -29,7 +29,6 @@ def create_autoencoder():
 
 
 def train_autoencoder(data, model_id):
-    X_train, X_test = train_test_split(data, test_size=0.2, random_state=0)
 
     # Making autoencoder
     autoencoder = create_autoencoder()
@@ -53,4 +52,14 @@ def getLoss(data, model_id):
 
 
 if __name__ == "__main__":
-    train_autoencoder(data.data, "javi")
+
+    X_train, X_test = train_test_split(
+        data.data, test_size=0.2, random_state=0)
+
+    train_autoencoder(X_train, "javi")
+
+    print("PRO LOSS: ")
+    print(getLoss(X_test, "javi"))
+
+    print("AMATUER LOSS: ")
+    print(getLoss(data.badDataPoint_x, "javi"))
