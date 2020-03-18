@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Container, Row, Col } from 'react-bootstrap';
 import HomeCarousel from './HomeCarousel.jsx';
+import NewSession from '../NewSession/NewSession';
 import '../../stylesheets/Home.css';
 
 class Home extends Component {
@@ -61,6 +62,9 @@ class Home extends Component {
 
         {/* Render Countries Grid */}
         {this._renderCountryGrid()}
+
+        <h3 id="h2Home">START SESSION</h3>
+        <NewSession />
       </div>
     )
   }

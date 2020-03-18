@@ -1,11 +1,11 @@
-// const express = require('express');
-// const router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-const Router = require('express-promise-router')
-// create a new express-promise-router
-// this has the same API as the normal express router except
-// it allows you to use async functions as route handlers
-const router = new Router()
+// const Router = require('express-promise-router')
+// // create a new express-promise-router
+// // this has the same API as the normal express router except
+// // it allows you to use async functions as route handlers
+// const router = new Router()
 
 const rp = require('request-promise');
 const db = require('../db/index')
@@ -42,6 +42,32 @@ module.exports = function (app, passport, pgClient, userProfileManager, selfServ
 
   router.get('/api/test/stripe', (req, res) => {
     res.send(process.env.REACT_APP_STRIPE_PK);
+  })
+
+  router.post('/api/start', async (req, res) => {
+    const {duration} = req.body;
+    console.log("start api");
+    var options = {
+      method: 'POST',
+      body: JSON.stringify({
+        name: new Date().getTime(),
+        duration: duration
+      }),
+      uri: "http://swim.hopto.org:8080/start",
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Accept': 'application/json',
+      }
+    }
+    rp(options).then(response => {
+      console.log("res", response);
+      res.status(200).send(response);
+    })
+    .catch(err => {
+      console.log("err", err);
+      res.status(200).send(err);
+    })
+    
   })
 
   return router;
